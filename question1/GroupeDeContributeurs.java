@@ -12,41 +12,65 @@ public class GroupeDeContributeurs extends Cotisant implements Iterable<Cotisant
   
   public GroupeDeContributeurs(String nomDuGroupe){
     super(nomDuGroupe);
-    // a completer
+     liste = new ArrayList<>();
   }
   
   public void ajouter(Cotisant cotisant){
-    // a completer
+    if(!liste.contains(cotisant)){
+            cotisant.setParent(this);
+            liste.add(cotisant);
+        }
   }
   
   
   public int nombreDeCotisants(){
     int nombre = 0;
-    // a completer
+       Iterator<Cotisant> it = liste.iterator();
+        while(it.hasNext()){
+            Cotisant cotisant = it.next();
+            nombre += cotisant.nombreDeCotisants();
+        }
     return nombre;
   }
   
   public String toString(){
-    String str = new String();
-    // a completer
-    return str;
+       String str = new String();
+        Iterator<Cotisant> it = liste.iterator();
+        str += "<Groupe " + nom() + " : (";
+        while(it.hasNext()){
+            Cotisant cotisant = it.next();
+            str += cotisant.toString();
+        }
+        return str + ")>";
   }
   
   public List<Cotisant> getChildren(){
-    return null;// a completer
+    return liste;
   }
   
-  public void debit(int somme) throws SoldeDebiteurException{
-    // a completer
+  public void debit(int somme) throws RuntimeException,SoldeDebiteurException{
+     Iterator<Cotisant> it = liste.iterator();
+        while(it.hasNext()){
+            Cotisant cotisant = it.next();
+            cotisant.debit(somme);
+        }
   }
   
-  public void credit(int somme){
-    // a completer
+  public void credit(int somme)throws RuntimeException{
+    Iterator<Cotisant> it = liste.iterator();
+        while(it.hasNext()){
+            Cotisant cotisant = it.next();
+            cotisant.credit(somme);
+        }
   }
   
   public int solde(){
     int solde = 0;
-    // a completer
+    Iterator<Cotisant> it = liste.iterator();
+        while(it.hasNext()){
+            Cotisant cotisant = it.next();
+            solde += cotisant.solde();
+        }
     return solde;
   }
   

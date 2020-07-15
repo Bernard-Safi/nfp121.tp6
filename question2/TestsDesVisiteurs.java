@@ -6,10 +6,38 @@ import question1.*;
 public class TestsDesVisiteurs extends junit.framework.TestCase{
 
     public void testACompleter(){
-        fail(" cette méthode de tests, est à compléter, appels des trois visiteurs....");
+        GroupeDeContributeurs grp1 = new GroupeDeContributeurs("G1");
+        GroupeDeContributeurs grp2 = new GroupeDeContributeurs("G2");
+        GroupeDeContributeurs grp3 = new GroupeDeContributeurs("G3");
+
+        Contributeur cont1 = new Contributeur("bernard", 20000);
+        Contributeur cont2 = new Contributeur("fadi", 3000);
+        Contributeur cont3 = new Contributeur("chadi", 5000);
+        Contributeur cont4 = new Contributeur("fadi", 10000);
+        Contributeur cont5 = new Contributeur("toni", 4000);
+
+  
+        grp1.ajouter(cont1);
+        grp1.ajouter(cont2);
+        assertTrue(grp1.accepter(new CompositeValide()));
+        assertFalse(grp2.accepter(new CompositeValide()));
+        assertFalse(grp3.accepter(new CompositeValide()));
+
+        grp2.ajouter(cont3);
+        grp2.ajouter(cont4);
+        grp2.ajouter(grp1);
+        assertTrue( grp1.accepter(new SansDoublon()));
+        assertFalse(grp2.accepter(new SansDoublon()));
+        assertTrue(grp3.accepter(new SansDoublon()));
+        
+      
+        grp3.ajouter(cont5);
+        grp3.ajouter(grp2);
+        assertEquals(new Integer(3000), grp1.accepter(new DebitMaximal()));
+        assertEquals( new Integer(3000), grp2.accepter(new DebitMaximal()));
+        assertEquals( new Integer(3000), grp3.accepter(new DebitMaximal()));
+
     }
-
-
 
     public void testCompositeValide(){
         try{
@@ -35,7 +63,7 @@ public class TestsDesVisiteurs extends junit.framework.TestCase{
             g.ajouter(new Contributeur("g_b",200));
             g.ajouter(new Contributeur("g_c",300));
             assertTrue(" Ce composite est valide, revoyez CompositeValide !!!", g.accepter(new CompositeValide()));
-            assertEquals(" Revoyez DébitMaximal !!!", new Integer(100), g.accepter(new DebitMaximal()));
+            assertEquals(" Revoyez D�bitMaximal !!!", new Integer(100), g.accepter(new DebitMaximal()));
             GroupeDeContributeurs g1 = new GroupeDeContributeurs("g1");
             g.ajouter(g1);
             assertFalse(" Ce composite n'est pas valide, revoyez CompositeValide !!!", g1.accepter(new CompositeValide()));
@@ -58,4 +86,3 @@ public class TestsDesVisiteurs extends junit.framework.TestCase{
         }
     }
 }
-

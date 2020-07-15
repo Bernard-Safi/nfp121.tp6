@@ -6,7 +6,7 @@ public abstract class AbstractTransaction{
     protected Cotisant cotisant;
     protected int somme;
 
-    public abstract void beginTransaction();     // Template Method
+    public abstract void beginTransaction();     
     public abstract void endTransaction();
     public abstract void rollbackTransaction();
 
